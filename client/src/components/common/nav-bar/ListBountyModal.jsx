@@ -62,7 +62,7 @@ export default function ListBountyModal({ showListBountyModal }) {
 
   const submitBounty = () => {
     axios
-      .post('http://54.176.108.13:8080/api/bounties', formValues)
+      .post('/api/bounties', formValues)
       .then((results) => {
         console.log(results);
         showListBountyModal();

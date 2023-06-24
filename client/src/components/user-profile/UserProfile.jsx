@@ -23,7 +23,7 @@ function UserProfile({ toggleTheme, theme }) {
 
   useEffect(() => {
     axios
-      .get('http://54.176.108.13:8080/api/transactions', {
+      .get('/api/transactions', {
         params: {
           userID: userId,
         },
@@ -33,7 +33,7 @@ function UserProfile({ toggleTheme, theme }) {
       })
       .catch((err) => console.error('Error getting transactions', err));
     axios
-      .get(`http://54.176.108.13:8080/api/users/${userId}?auth=false`)
+      .get(`/api/users/${userId}?auth=false`)
       .then((response) => {
         setUser(response.data[0]);
       })

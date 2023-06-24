@@ -38,7 +38,7 @@ export default function BountyCardBack({ Bounty, flipCard, showOfferModal }) {
 
   useEffect(() => {
     axios
-      .get(`http://54.176.108.13:8080/api/users/${buyer_id}?auth=false`)
+      .get(`/api/users/${buyer_id}?auth=false`)
       .then((response) => {
         setUser(response.data[0]);
       })

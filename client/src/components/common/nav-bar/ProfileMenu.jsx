@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { getAuth, signOut } from 'firebase/auth';
+import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import {
   StyledProfileMenuContainer,
@@ -8,12 +8,11 @@ import {
   StyledProfileMenuProperties,
   StyledClearCurtain,
 } from './navbar.styled';
-import { firebaseApp } from '../../../firebase';
+import { auth } from '../../../firebase';
 import { GlobalContext } from '../../GlobalContext.jsx';
 
 export default function ProfileMenu({ toggleTheme, showProfileMenu, theme }) {
   const exampleImgURL = 'https://i.pinimg.com/736x/5b/91/44/5b914448091084b6aa3dc005fad52eba.jpg';
-  const auth = getAuth(firebaseApp);
   const navigate = useNavigate();
   const { setUserData, userData } = useContext(GlobalContext);
 

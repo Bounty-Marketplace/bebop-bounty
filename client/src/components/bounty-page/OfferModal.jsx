@@ -59,7 +59,7 @@ export default function ListBountyModal({ showOfferModal, setOfferModal, Bounty 
 
     console.log('Form Values', formValues);
     try {
-      const response = await axios.post('http://54.176.108.13:8080/api/offers', formValues);
+      const response = await axios.post('/api/offers', formValues);
       console.log('Offer submitted successfully:', response.data);
     } catch (error) {
       console.error('Error submitting offer:', error);
@@ -70,7 +70,6 @@ export default function ListBountyModal({ showOfferModal, setOfferModal, Bounty 
     <StyledListBountyContainer>
       <StyledListBountyOverlay onClick={showOfferModal} />
       <StyledListBountyBody>
-        {/* ====== INSERT UNIQUE CONTENT BELOW HERE ====== */}
         <StyledListBountyCloseBtn type="button" onClick={showOfferModal}>
           X
         </StyledListBountyCloseBtn>
@@ -142,7 +141,6 @@ export default function ListBountyModal({ showOfferModal, setOfferModal, Bounty 
         <StyledSubmitListBounty className="list-bounty-btn" onClick={submitOffer} type="button">
           List Offer
         </StyledSubmitListBounty>
-        {/* ====== INSERT UNIQUE CONTENT ABOVE HERE ====== */}
       </StyledListBountyBody>
     </StyledListBountyContainer>
   );

@@ -1,48 +1,68 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getAuth, signInWithEmailAndPassword, AuthErrorCodes } from 'firebase/auth';
+import {
+  setPersistence,
+  browserSessionPersistence,
+  signInWithEmailAndPassword,
+  AuthErrorCodes,
+  onAuthStateChanged,
+} from 'firebase/auth';
 import axios from 'axios';
 import { GlobalContext } from '../GlobalContext.jsx';
-import { firebaseApp } from '../../firebase';
+import { auth } from '../../firebase';
 
 function Login() {
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [error, setError] = React.useState(null);
-  const auth = getAuth(firebaseApp);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
   const { setUserData } = useContext(GlobalContext);
 
   const sendUserDataToServer = (user) => {
-    axios
-      .get(`http://54.176.108.13:8080/api/users/${user.uid}?auth=true`)
-      .then((response) => {
-        console.log('RESPONSEE DATA', response.data[0]);
-        setUserData(response.data[0]);
-        navigate('/bounty-page');
-      })
-      .catch((err) => console.log('Err in sendUserDataToServer: ', err));
+    if (user) {
+      axios
+        .get(`/api/users/${user.uid}?auth=true`)
+        .then((response) => {
+          console.log('RESPONSEE DATA', response.data[0]);
+          setUserData(response.data[0]);
+          navigate('/bounty-page');
+        })
+        .catch((err) => console.log('Err in sendUserDataToServer: ', err));
+    }
   };
+  useEffect(() => {
+    const keepLogin = onAuthStateChanged(auth, (user) => {
+      console.log('login: ', user);
+      sendUserDataToServer(user);
+    });
+    return keepLogin;
+  }, []);
 
   const handleSignIn = (e) => {
     e.preventDefault();
     setError(null);
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const { user } = userCredential;
-        console.log('user', user);
-        sendUserDataToServer(user);
+    setPersistence(auth, browserSessionPersistence)
+      .then(() => {
+        signInWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            const { user } = userCredential;
+            console.log('user', user);
+            sendUserDataToServer(user);
+          })
+          .catch((err) => {
+            if (
+              err.code === AuthErrorCodes.INVALID_PASSWORD ||
+              err.code === AuthErrorCodes.USER_DELETED
+            ) {
+              setError('* The email address or password is incorrect');
+            } else {
+              console.log(err.message);
+            }
+          });
       })
       .catch((err) => {
-        if (
-          err.code === AuthErrorCodes.INVALID_PASSWORD ||
-          err.code === AuthErrorCodes.USER_DELETED
-        ) {
-          setError('* The email address or password is incorrect');
-        } else {
-          console.log(err.message);
-        }
+        console.log('Err in setPersistence: ', err.message);
       });
   };
 

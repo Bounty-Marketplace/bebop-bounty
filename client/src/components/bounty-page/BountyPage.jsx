@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { onAuthStateChanged } from 'firebase/auth';
 import {
   StyledFilterBar,
   StyledSelect,
@@ -10,6 +11,8 @@ import {
 import { StyledBountyPageBorder } from '../../theme';
 import NavBar from '../common/nav-bar/NavBar.jsx';
 import BountyBoard from './BountyBoard.jsx';
+import { auth } from '../../firebase';
+import { GlobalContext } from '../GlobalContext.jsx';
 
 export default function BountyPage({ toggleTheme, theme }) {
   const [sortBy, setSortBy] = useState('');
@@ -17,6 +20,7 @@ export default function BountyPage({ toggleTheme, theme }) {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [allBounties, setAllBounties] = useState([]);
+  const { setUserData } = useContext(GlobalContext);
   const searchIcon = (
     <svg xmlns="http://www.w3.org/2000/svg" height="13px" width="13px" viewBox="0 0 512 512">
       <path
@@ -25,9 +29,26 @@ export default function BountyPage({ toggleTheme, theme }) {
       />
     </svg>
   );
+
+  useEffect(() => {
+    const keepLogin = onAuthStateChanged(auth, (user) => {
+      console.log('login: ', user);
+      if (user) {
+        axios
+          .get(`/api/users/${user.uid}?auth=true`)
+          .then((response) => {
+            console.log('userData', response.data[0]);
+            setUserData(response.data[0]);
+          })
+          .catch((err) => console.log('Err in sendUserDataToServer: ', err));
+      }
+    });
+    return keepLogin;
+  }, []);
+
   const getAllBounties = () => {
     axios
-      .get('http://54.176.108.13:8080/api/bounties', { params: { count: 10 } })
+      .get('/api/bounties', { params: { count: 10 } })
       .then(({ data }) => setAllBounties(data))
       .catch((err) => console.error('There was a problem GETTING all bounties: ', err));
   };
@@ -35,7 +56,7 @@ export default function BountyPage({ toggleTheme, theme }) {
   const submitCity = () => {
     if (city.length >= 2) {
       axios
-        .get('http://54.176.108.13:8080/api/bounties', { params: { city: city } })
+        .get('/api/bounties', { params: { city } })
         .then(({ data }) => {
           setAllBounties(data);
           setCity('');
@@ -46,7 +67,7 @@ export default function BountyPage({ toggleTheme, theme }) {
   const submitState = () => {
     if (state.length >= 2) {
       axios
-        .get('http://54.176.108.13:8080/api/bounties', { params: { state: state } })
+        .get('/api/bounties', { params: { state } })
         .then(({ data }) => {
           setAllBounties(data);
           setState('');
@@ -62,10 +83,10 @@ export default function BountyPage({ toggleTheme, theme }) {
   useEffect(() => {
     if (category || sortBy) {
       axios
-        .get('http://54.176.108.13:8080/api/bounties', {
+        .get('/api/bounties', {
           params: {
-            category: category,
-            sortBy: sortBy,
+            category,
+            sortBy,
           },
         })
         .then(({ data }) => {
@@ -78,7 +99,7 @@ export default function BountyPage({ toggleTheme, theme }) {
 
   const seeMore = (length) => {
     axios
-      .get('http://54.176.108.13:8080/api/bounties', {
+      .get('/api/bounties', {
         params: {
           count: length + 5,
         },
