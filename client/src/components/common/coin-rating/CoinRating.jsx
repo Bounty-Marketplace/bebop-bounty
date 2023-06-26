@@ -79,9 +79,8 @@ const EmptyCoin = styled.img`
   height: ${(props) => props.size};
   width: ${(props) => props.size};
 `;
-function CoinRating({ user, size }) {
-  // const diameter = size === 'small' ? `20px` : `30px`;
 
+function CoinRating({ user, size }) {
   const rating = `${Math.round(
     (user.rating_thumbs_up / (user.rating_thumbs_up + user.rating_thumbs_down)) * 100
   ).toFixed(2)}%`;
@@ -102,5 +101,3 @@ function CoinRating({ user, size }) {
 }
 
 export default CoinRating;
-
-// background: linear-gradient(90deg, gold var(--ratings), var(--star-background) var(--ratings));

@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 function OfferHistoryEntry({ offer, getOffers }) {
   const handleBuyClick = () => {
     axios
-      .post(`http://54.176.108.13:8080/api/transactions`, { offerID: offer.id })
+      .post(`/api/transactions`, { offerID: offer.id })
       .then(getOffers())
       .catch((err) => console.log(err));
   };

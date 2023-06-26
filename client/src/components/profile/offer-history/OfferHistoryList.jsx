@@ -8,7 +8,7 @@ function OfferHistoryList({ bountyID }) {
 
   const getOffers = () => {
     axios
-      .get(`http://54.176.108.13:8080/api/offers`, { params: { bountyID: bountyID } })
+      .get(`/api/offers`, { params: { bountyID: bountyID } })
       .then((r) => setBountyOffers(r.data))
       .catch((e) => console.log(e));
   };

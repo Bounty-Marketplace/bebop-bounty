@@ -18,7 +18,7 @@ function TransactionHistoryEntry({ userID, entry, getUserTransactions }) {
     if (role === 'seller') { feedBack.ratingToBuyer = 'good' }
     else { feedBack.ratingToSeller = 'good' }
     console.log('button Clicked:', feedBack )
-    axios.patch(`http://54.176.108.13:8080/api/transactions/${entry.id}`, feedBack)
+    axios.patch(`/api/transactions/${entry.id}`, feedBack)
       .then((r) => getUserTransactions())
       .catch((err) => console.log(err))
   };
@@ -28,7 +28,7 @@ function TransactionHistoryEntry({ userID, entry, getUserTransactions }) {
     if (role === 'seller') { feedBack.ratingToBuyer = 'bad' }
     else { feedBack.ratingToSeller = 'bad' }
     console.log('button Clicked:', feedBack )
-    axios.patch(`http://54.176.108.13:8080/api/transactions/${entry.id}`, feedBack)
+    axios.patch(`/api/transactions/${entry.id}`, feedBack)
       .then((r) => getUserTransactions())
       .catch((err) => console.log(err))
   };

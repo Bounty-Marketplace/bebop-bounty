@@ -8,7 +8,6 @@ export default function CardFlip({ Bounty }) {
   const [isFlipped, setIsFlipped] = useState(false);
 
   const flipCard = (e) => {
-    console.log('flip it!');
     e.preventDefault();
     isFlipped ? setIsFlipped(false) : setIsFlipped(true);
   };
@@ -16,8 +15,6 @@ export default function CardFlip({ Bounty }) {
   const [offerModal, setOfferModal] = useState(false);
 
   const showOfferModal = () => {
-    // console.log(offerModal);
-
     setOfferModal(!offerModal);
   };
 

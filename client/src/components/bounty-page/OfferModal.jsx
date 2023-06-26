@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import {
   StyledListBountyContainer,
@@ -7,19 +7,16 @@ import {
   StyledListBountyContentContainer,
   StyledSubmitListBounty,
   StyledListBountyCloseBtn,
-  StyledListBountyTitleInput,
-  StyledListBountyTitle,
   StyledListBountyContent,
 } from '../common/nav-bar/navbar.styled';
 import { GlobalContext } from '../GlobalContext.jsx';
 
-export default function ListBountyModal({ showOfferModal, setOfferModal, Bounty }) {
+export default function ListBountyModal({ showOfferModal, Bounty }) {
   const { userData } = useContext(GlobalContext);
-  const [id, setID] = useState(userData.id);
 
   const initialValues = {
     bountyID: Bounty.id,
-    sellerID: id,
+    sellerID: userData.id,
     description: '',
     city: '',
     state: '',
@@ -53,13 +50,13 @@ export default function ListBountyModal({ showOfferModal, setOfferModal, Bounty 
     }
   };
 
-  const submitOffer = async () => {
+  const submitOffer = async (e) => {
+    e.preventDefault();
     showOfferModal();
     console.log('Bounty>>>>', Bounty);
-
     console.log('Form Values', formValues);
     try {
-      const response = await axios.post('http://54.176.108.13:8080/api/offers', formValues);
+      const response = await axios.post('/api/offers', formValues);
       console.log('Offer submitted successfully:', response.data);
     } catch (error) {
       console.error('Error submitting offer:', error);
@@ -70,79 +67,83 @@ export default function ListBountyModal({ showOfferModal, setOfferModal, Bounty 
     <StyledListBountyContainer>
       <StyledListBountyOverlay onClick={showOfferModal} />
       <StyledListBountyBody>
-        {/* ====== INSERT UNIQUE CONTENT BELOW HERE ====== */}
         <StyledListBountyCloseBtn type="button" onClick={showOfferModal}>
           X
         </StyledListBountyCloseBtn>
         <h2>Offer</h2>
-        <StyledListBountyContentContainer>
-          <StyledListBountyContent>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-              Description:{' '}
-              <textarea
-                type="text"
-                name="description"
-                rows="5"
-                cols="40"
-                placeholder="Describe the item you are providing"
-                value={formValues.description}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              City
-              <input
-                style={{ width: '70%' }}
-                type="text"
-                name="city"
-                value={formValues.city}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              State
-              <input
-                style={{ width: '70%' }}
-                type="text"
-                name="state"
-                value={formValues.state}
-                onChange={handleChange}
-              />
-            </div>
-            <select name="condition" value={formValues.condition} onChange={handleChange}>
-              <option>-- Condition --</option>
-              <option>new</option>
-              <option>like new</option>
-              <option>good</option>
-              <option>fair</option>
-              <option>poor</option>
-            </select>
-            <div>
-              Upload An Image{' '}
-              <input
-                style={{ borderBottom: 'none' }}
-                type="file"
-                accept="image/png, image/jpeg, image/jpg"
-                name="image"
-                onChange={(e) => getImageURL(e)}
-              />
-            </div>
-            <div>
-              Requested Amount:
-              <input
-                style={{ width: '55%' }}
-                type="text"
-                name="offerAmount"
-                value={formValues.offer_amount}
-                onChange={handleChange}
-              />
-            </div>
-          </StyledListBountyContent>
-        </StyledListBountyContentContainer>
-        <StyledSubmitListBounty className="list-bounty-btn" onClick={submitOffer} type="button">
-          List Offer
-        </StyledSubmitListBounty>
-        {/* ====== INSERT UNIQUE CONTENT ABOVE HERE ====== */}
+        <form onSubmit={submitOffer}>
+          <StyledListBountyContentContainer>
+            <StyledListBountyContent>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                Description:{' '}
+                <textarea
+                  type="text"
+                  name="description"
+                  rows="5"
+                  cols="40"
+                  placeholder="Describe the item you are providing"
+                  value={formValues.description}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div>
+                City:
+                <input
+                  style={{ width: '70%' }}
+                  type="text"
+                  name="city"
+                  value={formValues.city}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div>
+                State:
+                <input
+                  style={{ width: '70%' }}
+                  type="text"
+                  name="state"
+                  value={formValues.state}
+                  onChange={handleChange}
+                />
+              </div>
+              <select name="condition" value={formValues.condition} onChange={handleChange}>
+                <option>-- Condition --</option>
+                <option>new</option>
+                <option>like new</option>
+                <option>good</option>
+                <option>fair</option>
+                <option>poor</option>
+              </select>
+              <div>
+                Upload An Image{' '}
+                <input
+                  style={{ borderBottom: 'none' }}
+                  type="file"
+                  accept="image/png, image/jpeg, image/jpg"
+                  name="image"
+                  onChange={(e) => getImageURL(e)}
+                  required
+                />
+              </div>
+              <div>
+                Requested Amount:
+                <input
+                  style={{ width: '55%' }}
+                  type="text"
+                  name="offerAmount"
+                  value={formValues.offer_amount}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </StyledListBountyContent>
+          </StyledListBountyContentContainer>
+          <StyledSubmitListBounty className="list-bounty-btn" type="submit">
+            List Offer
+          </StyledSubmitListBounty>
+        </form>
       </StyledListBountyBody>
     </StyledListBountyContainer>
   );

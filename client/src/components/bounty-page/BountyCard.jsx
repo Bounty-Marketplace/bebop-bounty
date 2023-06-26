@@ -1,8 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import BountyCardBack from './BountyCardBack.jsx';
-import { OpenOfferModal } from './helpers.js';
-import coinGoldImage from '../../assets/coin-gold.png'; // Import the image
 import { StyledBountyCard } from '../../theme';
 
 import {
@@ -20,7 +17,7 @@ import {
   StyledTitleAndName,
 } from './StyledBountyBoard';
 
-export default function BountyCardFront({ Bounty, flipCard, isFlipped, showOfferModal }) {
+export default function BountyCardFront({ Bounty, flipCard, isFlipped }) {
   const { id, buyer_name, buyer_id, offer_count, name, price, image } = Bounty;
 
   const navigate = useNavigate();
@@ -54,7 +51,6 @@ export default function BountyCardFront({ Bounty, flipCard, isFlipped, showOffer
       <StyledBottomCardContainer>
         <StyledCurrentOffers>Current Offers: {offer_count}</StyledCurrentOffers>
         <StyledDeadline>Deadline: {deadline}</StyledDeadline>
-
       </StyledBottomCardContainer>
     </StyledBountyCard>
   );

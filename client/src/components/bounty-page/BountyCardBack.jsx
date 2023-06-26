@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
-import { OpenOfferModal } from './helpers.js';
+import { useNavigate } from 'react-router-dom';
 import CoinRating from '../common/coin-rating/CoinRating.jsx';
 import { StyledBountyCardBack } from '../../theme';
 import { GlobalContext } from '../GlobalContext.jsx';
-import { useNavigate } from 'react-router-dom';
 
 import {
   StyledTitle,
@@ -38,7 +37,7 @@ export default function BountyCardBack({ Bounty, flipCard, showOfferModal }) {
 
   useEffect(() => {
     axios
-      .get(`http://54.176.108.13:8080/api/users/${buyer_id}?auth=false`)
+      .get(`/api/users/${buyer_id}?auth=false`)
       .then((response) => {
         setUser(response.data[0]);
       })
@@ -55,8 +54,13 @@ export default function BountyCardBack({ Bounty, flipCard, showOfferModal }) {
     <StyledBountyCardBack onClick={flipCard}>
       <StyledTitle>{name}</StyledTitle>
 
-      <StyledCategory>Category: {category}</StyledCategory>
-      <StyledDescription>Description: {description}</StyledDescription>
+      <StyledCategory>
+        <b>Category:</b> {category}
+      </StyledCategory>
+      <StyledDescription>
+        <b>Description: </b>
+        {description}
+      </StyledDescription>
       {preferred_payment && (
         <StyledPreferredPayment>Preferred Payment: {preferred_payment}</StyledPreferredPayment>
       )}
@@ -70,8 +74,6 @@ export default function BountyCardBack({ Bounty, flipCard, showOfferModal }) {
       <OfferLayout>
         <StyledRatingBox>Rating: {user && <CoinRating user={user} size="20px" />}</StyledRatingBox>
         <StyledBuyerName onClick={handleBuyerNameClick}>{buyer_name}</StyledBuyerName>
-        {/* <StyledCurrentOffers>Current Offers</StyledCurrentOffers> */}
-        {/* <FlipToFront onClick={flipCard}> Flip to Front</FlipToFront> */}
       </OfferLayout>
     </StyledBountyCardBack>
   );

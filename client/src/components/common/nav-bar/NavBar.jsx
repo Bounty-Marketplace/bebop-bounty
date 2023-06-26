@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { StyledNavBar, StyledListBountyBtn, StyledProfilePic } from './navbar.styled';
 import { StyledNavLogo } from '../../../theme';
-import SearchBar from '../../bounty-page/SearchBar.jsx';
+import SearchBar from './SearchBar.jsx';
 import ProfileMenu from './ProfileMenu.jsx';
 import ListBountyModal from './ListBountyModal.jsx';
 import { GlobalContext } from '../../GlobalContext.jsx';
@@ -27,7 +27,12 @@ export default function NavBar({ toggleTheme, theme, setAllBounties }) {
       <StyledNavLogo onClick={handleLogoOnClick}>Bebop Bounty</StyledNavLogo>
       <SearchBar setAllBounties={setAllBounties} />
       <StyledListBountyBtn onClick={() => showListBountyModal()}>List Bounty</StyledListBountyBtn>
-      {listBountyModal && <ListBountyModal showListBountyModal={showListBountyModal} />}
+      {listBountyModal && (
+        <ListBountyModal
+          showListBountyModal={showListBountyModal}
+          setAllBounties={setAllBounties}
+        />
+      )}
       <StyledProfilePic onClick={() => showProfileMenu()}>
         <img src={userData.profile_image || exampleImgURL} alt="profile pic" />
       </StyledProfilePic>
