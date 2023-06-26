@@ -93,20 +93,13 @@ export const StyledImage = styled.img`
 `;
 
 export const StyledPrice = styled.div`
-  /* position: absolute;
-  top: 0;
-  left: 0;
-  right: 0; */
-  /* height: 80%;
-  text-align: center; */
   font-size: x-large;
+  text-align: center;
   position: absolute;
-  left: 38%;
-  bottom: 0%;
-  color: white;
-  /* color: white;
-  margin-bottom: 4%; */
-  /* border: solid; */
+  bottom: 0;
+  width: 278px;
+  color: black;
+  background-color: rgba(255, 255, 255, 0.2);
 `;
 
 export const StyledTitleAndName = styled.div`
@@ -117,16 +110,15 @@ export const StyledTitleAndName = styled.div`
 
 export const StyledWanted = styled.div`
   position: absolute;
-  /* background-color: grey; */
-  /* opacity: 0.75; */
-  color: white;
+  color: black;
+  background-color: rgba(255, 255, 255, 0.2);
+  width: 278px;
   top: 0;
   left: 0;
   right: 0;
   text-align: center;
   font-size: x-large;
   z-index: 2;
-  /* border: solid; */
 `;
 
 export const StyledMidcardContainer = styled.div`
@@ -157,7 +149,6 @@ export const StyledBottomCardContainer = styled.div`
 export const StyledTitle = styled.div`
   font-size: large;
   font-weight: bold;
-  /* border: solid; */
 `;
 
 export const StyledBuyerName = styled.div`
@@ -181,6 +172,7 @@ export const StyledRatingBox = styled.div`
   height: 15px;
   padding-bottom: 10%;
   display: flex;
+  align-items: baseline;
 `;
 
 export const StyledMakeOfferButton = styled.button`
@@ -202,15 +194,15 @@ export const StyledCategory = styled.div`
   /* border: solid; */
 `;
 export const StyledDescription = styled.div`
-  /* border: solid; */
+  overflow: scroll;
+  height: 150px;
 `;
-export const StyledPreferredPayment = styled.div`
-  /* */
-`;
+export const StyledPreferredPayment = styled.div``;
 
 export const OfferLayout = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
 `;
 
 export const StyledFlexContainer = styled.div`

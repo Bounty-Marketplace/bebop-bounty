@@ -3,11 +3,14 @@ import axios from 'axios';
 import { withTheme } from 'styled-components';
 import { StyledSearchBar, StyledSearchInput, StyledSearchButton } from './navbar.styled';
 
-function SearchBar() {
+function SearchBar({ setAllBounties }) {
   const [searchEntry, setSearchEntry] = useState('');
 
   const handleSearch = (entry) => {
-    // axios.get('/api/bounties')
+    axios
+      .get('/api/bounties', { params: { searchQuery: entry } })
+      .then(({ data }) => setAllBounties(data))
+      .catch((err) => console.error('There was an error retreiving search data', err));
   };
 
   return (
