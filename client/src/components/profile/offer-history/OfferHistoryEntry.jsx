@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 function OfferHistoryEntry({ offer, getOffers }) {
   const handleBuyClick = () => {
     axios
-      .post(`/api/transactions`, { offerID: offer.id })
+      .post(`http://13.57.207.155:8080/api/transactions`, { offerID: offer.id })
       .then(getOffers())
       .catch((err) => console.log(err));
   };
@@ -15,7 +15,8 @@ function OfferHistoryEntry({ offer, getOffers }) {
       <Button onClick={handleBuyClick} variant="success" size="sm">
         Buy
       </Button>{' '}
-      {'  '}{offer.condition} condition from {offer.seller_name} for ${offer.offer_amount}
+      {'  '}
+      {offer.condition} condition from {offer.seller_name} for ${offer.offer_amount}
     </div>
   );
 }
