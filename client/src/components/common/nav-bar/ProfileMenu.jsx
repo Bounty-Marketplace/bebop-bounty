@@ -1,6 +1,8 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import { updateUserID } from '../../../slices/userSlice';
 import {
   StyledProfileMenuContainer,
   StyledProfileMenuHeader,
@@ -9,19 +11,18 @@ import {
   StyledClearCurtain,
 } from './navbar.styled';
 import { auth } from '../../../firebase';
-import { GlobalContext } from '../../GlobalContext.jsx';
 
 export default function ProfileMenu({ toggleTheme, showProfileMenu, theme }) {
   const exampleImgURL = 'https://i.pinimg.com/736x/5b/91/44/5b914448091084b6aa3dc005fad52eba.jpg';
   const navigate = useNavigate();
-  const { setUserData, userData } = useContext(GlobalContext);
-
+  const dispatch = useDispatch();
+  const { id: userID, profile: userProfile } = useSelector((state) => state.user);
   const handleSignOut = (e) => {
     e.preventDefault();
     signOut(auth)
       .then(() => {
         alert('Sign out successful.');
-        setUserData({}); // clear current user data after sign out
+        dispatch(updateUserID(null)); // clear current user data after sign out
         navigate('/login');
       })
       .catch((error) => {
@@ -36,8 +37,8 @@ export default function ProfileMenu({ toggleTheme, showProfileMenu, theme }) {
 
   const handleProfileClick = (e) => {
     e.preventDefault();
-    if (userData.id) {
-      navigate(`/user-profile/${userData.id}`);
+    if (userID) {
+      navigate(`/user-profile/${userID}`);
     } else {
       alert("You haven't logged into your account yet.");
     }
@@ -49,10 +50,10 @@ export default function ProfileMenu({ toggleTheme, showProfileMenu, theme }) {
       <StyledUpArrow />
       <StyledProfileMenuContainer>
         <StyledProfileMenuHeader>
-          <img src={userData.profile_image || exampleImgURL} alt="profile pic" />
+          <img src={userProfile.profile_image || exampleImgURL} alt="profile pic" />
           <div>
-            <p>{userData.username || 'Guest'}</p>
-            <p>{userData.email || ''}</p>
+            <p>{userProfile.username || 'Guest'}</p>
+            <p>{userProfile.email || ''}</p>
           </div>
         </StyledProfileMenuHeader>
         <StyledProfileMenuProperties>
