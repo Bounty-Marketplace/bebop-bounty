@@ -1,5 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import FilledCoinIcon from '../../../assets/coin-gold.png';
 import EmptyCoinIcon from '../../../assets/coin-grey.png';
@@ -80,10 +81,9 @@ const EmptyCoin = styled.img`
   width: ${(props) => props.size};
 `;
 
-function CoinRating({ user, size }) {
-  const rating = `${Math.round(
-    (user.rating_thumbs_up / (user.rating_thumbs_up + user.rating_thumbs_down)) * 100
-  ).toFixed(2)}%`;
+function CoinRating({ size }) {
+  const { thumbsUp, thumbsDown } = useSelector((state) => state.user.profile);
+  const rating = `${Math.round((thumbsUp / (thumbsUp + thumbsDown)) * 100).toFixed(2)}%`;
   return (
     <Host>
       <FilledCoinContainer rating={rating}>
