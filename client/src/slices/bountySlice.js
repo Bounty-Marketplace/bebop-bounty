@@ -3,10 +3,14 @@ import { createSlice } from '@reduxjs/toolkit';
 export const bountySlice = createSlice({
   name: 'bounty',
   initialState: {
-    info: {},
+    id: null,
+    info: null,
     offers: [],
   },
   reducers: {
+    updateBountyID: (state, action) => {
+      state.id = action.payload;
+    },
     updateBountyInfo: (state, action) => {
       state.info = action.payload;
     },
@@ -16,6 +20,6 @@ export const bountySlice = createSlice({
   },
 });
 
-export const { updateBountyInfo, updateBountyOffers } = bountySlice.actions;
+export const { updateBountyID, updateBountyInfo, updateBountyOffers } = bountySlice.actions;
 
 export default bountySlice.reducer;

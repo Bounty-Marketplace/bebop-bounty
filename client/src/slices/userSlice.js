@@ -3,12 +3,16 @@ import { createSlice } from '@reduxjs/toolkit';
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
+    id: null,
     profile: {},
     bounties: [],
     offers: [],
     transactions: [],
   },
   reducers: {
+    updateUserID: (state, action) => {
+      state.id = action.payload;
+    },
     updateUserProfile: (state, action) => {
       state.profile = action.payload;
     },
@@ -24,7 +28,12 @@ export const userSlice = createSlice({
   },
 });
 
-export const { updateUserProfile, updateUserBounties, updateUserOffers, updateUserTransactions } =
-  userSlice.actions;
+export const {
+  updateUserID,
+  updateUserProfile,
+  updateUserBounties,
+  updateUserOffers,
+  updateUserTransactions,
+} = userSlice.actions;
 
 export default userSlice.reducer;
