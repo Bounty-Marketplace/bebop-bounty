@@ -1,14 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 import {
   StyledBountyBoardWrapper,
-  StyledDropdown,
   StyledCardFlip,
   StyledBountyCollection,
-  StyledSeeMore,
 } from './StyledBountyBoard';
 
-export default function BountyBoard({ Context, allBounties }) {
+export default function BountyBoard() {
+  const { allBounties } = useSelector((state) => state.bountyBoard);
   const Cards = allBounties.map((bounty) => <StyledCardFlip key={bounty.id} Bounty={bounty} />);
 
   return (

@@ -21,7 +21,7 @@ function SignUp() {
       email: user.email,
     };
     axios
-      .post('/api/users', userData)
+      .post('http://13.57.207.155:8080/api/users', userData)
       .then(() => {
         navigate('/login');
       })

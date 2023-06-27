@@ -1,10 +1,14 @@
-import { createStore, combineReducers } from 'redux';
-import INITIAL_STATE from './consts';
-import authReducer from './authReducer';
+import { configureStore } from '@reduxjs/toolkit';
+import bountyBoardReducer from '../slices/bountyBoardSlice';
+import bountyReducer from '../slices/bountySlice';
+import userReducer from '../slices/userSlice';
 
-const rootReducer = combineReducers({
-  authReducer,
+const store = configureStore({
+  reducer: {
+    bountyBoard: bountyBoardReducer,
+    bounty: bountyReducer,
+    user: userReducer,
+  },
 });
-const store = createStore(rootReducer);
 
 export default store;

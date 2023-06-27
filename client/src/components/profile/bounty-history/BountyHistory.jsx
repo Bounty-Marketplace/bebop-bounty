@@ -1,10 +1,12 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 import axios from 'axios';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Offcanvas from 'react-bootstrap/Offcanvas';
-import { GlobalContext } from '../../GlobalContext.jsx';
+import { updateUserBounties } from '../../../slices/userSlice';
+import { updateBountyID } from '../../../slices/bountySlice';
 import BountyCardFront from '../../bounty-page/BountyCard.jsx';
 import OfferHistoryList from '../offer-history/OfferHistoryList.jsx';
 import TransactionHistoryList from '../transaction-history/TransactionHistoryList.jsx';
@@ -13,20 +15,22 @@ import { StyledBountyPageBorder } from '../../../theme';
 import NavBar from '../../common/nav-bar/NavBar.jsx';
 
 function BountyHistory({ toggleTheme, theme }) {
-  const { userBounties, setUserBounties, userData } = useContext(GlobalContext);
-  const [bountyID, setBountyID] = useState('');
+  const { id: userID, bounties: userBounties } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = (ID) => {
-    setBountyID(ID);
+    dispatch(updateBountyID(ID));
     setShow(true);
   };
 
   const getUserBounties = () => {
     axios
-      .get(`/api/bounties`, { params: { userID: userData.id } })
-      .then((r) => setUserBounties(r.data))
-      .catch((e) => console.log(e));
+      .get(`http://13.57.207.155:8080/api/bounties`, { params: { userID } })
+      .then((response) => {
+        dispatch(updateUserBounties(response.data));
+      })
+      .catch((e) => console.error(e));
   };
 
   useEffect(() => {
@@ -37,12 +41,12 @@ function BountyHistory({ toggleTheme, theme }) {
     <div>
       <style type="text/css">
         {`
-    .offcanvas {
-      background-color: rgba(0, 0, 0, .25);
-      backdrop-filter: blur(10px);
-      color: white;
-    }
-    `}
+          .offcanvas {
+            background-color: rgba(0, 0, 0, .25);
+            backdrop-filter: blur(10px);
+            color: white;
+          }
+        `}
       </style>
       <StyledBountyPageBorder>
         <NavBar theme={theme} toggleTheme={toggleTheme} />
@@ -52,10 +56,12 @@ function BountyHistory({ toggleTheme, theme }) {
               <Col lg="9">
                 <h2>Your Open Bounties</h2>
                 <StyledFlexContainer>
-                  {userBounties.map((entry) => (
-                    <span key={entry.id} onClick={(e) => handleShow(entry.id)}>
-                      <BountyCardFront Bounty={entry} />
-                    </span>
+                  {userBounties.map((bounty) => (
+                    <BountyCardFront
+                      Bounty={bounty}
+                      key={bounty.id}
+                      onClick={() => handleShow(bounty.id)}
+                    />
                   ))}
                 </StyledFlexContainer>
               </Col>
@@ -70,7 +76,7 @@ function BountyHistory({ toggleTheme, theme }) {
               <Offcanvas.Title>Bounty Offers</Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
-              <OfferHistoryList bountyID={bountyID} />
+              <OfferHistoryList />
             </Offcanvas.Body>
           </Offcanvas>
         </StyledBountyBoardWrapper>

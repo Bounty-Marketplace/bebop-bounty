@@ -1,5 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
+import { useSelector } from 'react-redux';
 import moment from 'moment';
 import {
   ReviewContainer,
@@ -14,27 +15,28 @@ import {
   TransactionBottom,
 } from './RightContainerStyles';
 
-function UserProfileDetails({ userId, transactions }) {
+function UserProfileDetails() {
+  const { id: userID, transactions: userTransactions } = useSelector((state) => state.user);
   return (
     <>
       <ReviewContainer>
         <h2>Reviews:</h2>
         <ReviewList>
-          {userId &&
-            transactions &&
-            transactions.map((transaction) => (
+          {userID &&
+            userTransactions &&
+            userTransactions.map((transaction) => (
               <ReviewEntry key={transaction.bounty_name + transaction.id}>
                 <ReviewTop>
                   <div>
-                    {userId === transaction.buyer_id ? ' Seller: ' : 'Buyer: '}
-                    {userId === transaction.buyer_id
+                    {userID === transaction.buyer_id ? ' Seller: ' : 'Buyer: '}
+                    {userID === transaction.buyer_id
                       ? transaction.seller_name
                       : transaction.buyer_name}
                   </div>
                 </ReviewTop>
                 <ReviewBottom>
                   <div>
-                    {userId === transaction.buyer_id
+                    {userID === transaction.buyer_id
                       ? transaction.feedback_to_buyer || 'No review provided.'
                       : transaction.feedback_to_seller || 'No review provided.'}
                   </div>
@@ -47,9 +49,9 @@ function UserProfileDetails({ userId, transactions }) {
       <TransactionContainer>
         <h2>Transaction History:</h2>
         <TransactionList>
-          {userId &&
-            transactions &&
-            transactions.map((transaction) => (
+          {userID &&
+            userTransactions &&
+            userTransactions.map((transaction) => (
               <TransactionEntry key={transaction.bounty_name + transaction.id}>
                 <TransactionTop>
                   <div>Bounty: {transaction.bounty_name}</div>
@@ -57,11 +59,11 @@ function UserProfileDetails({ userId, transactions }) {
                 <TransactionBottom>
                   <div>
                     Completed with{' '}
-                    {userId === transaction.buyer_id
+                    {userID === transaction.buyer_id
                       ? transaction.seller_name
                       : transaction.buyer_name}
                     {' as '}
-                    {userId === transaction.buyer_id ? ' buyer ' : 'seller'}
+                    {userID === transaction.buyer_id ? ' buyer ' : 'seller'}
                   </div>
                   <div>{moment(transaction.transaction_date).format('YYYY-MM-DD')}</div>
                 </TransactionBottom>

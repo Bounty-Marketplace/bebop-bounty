@@ -1,7 +1,8 @@
 /* eslint-disable camelcase */
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { updateUserTransactions } from '../../slices/userSlice';
 import UserProfileDetails from './UserProfileDetails.jsx';
 import CoinRating from '../common/coin-rating/CoinRating.jsx';
 import NavBar from '../common/nav-bar/NavBar.jsx';
@@ -16,27 +17,22 @@ import {
 } from './ProfileStyles';
 
 function UserProfile({ toggleTheme, theme }) {
-  const [transactions, setTransactions] = useState(null);
-  const [user, setUser] = useState(null);
-  const userId = Number(useParams().buyer_id);
+  const dispatch = useDispatch();
+  const {
+    id: userID,
+    profile: userProfile,
+    transactions: userTransactions,
+  } = useSelector((state) => state.user);
 
   useEffect(() => {
     axios
-      .get('/api/transactions', {
-        params: {
-          userID: userId,
-        },
+      .get('http://13.57.207.155:8080/api/transactions', {
+        params: { userID },
       })
       .then((response) => {
-        setTransactions(response.data);
+        dispatch(updateUserTransactions(response.data));
       })
       .catch((err) => console.error('Error getting transactions', err));
-    axios
-      .get(`/api/users/${userId}?auth=false`)
-      .then((response) => {
-        setUser(response.data[0]);
-      })
-      .catch((err) => console.log('Err in sendUserDataToServer: ', err));
   }, []);
 
   return (
@@ -45,18 +41,14 @@ function UserProfile({ toggleTheme, theme }) {
       <UserProfileContainer>
         <UserInfoContainer>
           <UserDetails>
-            {user && <h2>{user.username}</h2>}
-            {user && <p>{user.email}</p>}
+            {userProfile && <h2>{userProfile.username}</h2>}
+            {userProfile && <p>{userProfile.email}</p>}
           </UserDetails>
-          {user && <ProfileImage src={user.profile_image} alt="profile-image" />}
-          <Rating>Rating: {user && <CoinRating user={user} size="30px" />}</Rating>
+          {userProfile && <ProfileImage src={userProfile.profile_image} alt="profile-image" />}
+          <Rating>Rating: {userProfile && <CoinRating size="30px" />}</Rating>
         </UserInfoContainer>
 
-        <RightContainer>
-          {transactions && user && (
-            <UserProfileDetails userId={userId} transactions={transactions} />
-          )}
-        </RightContainer>
+        <RightContainer>{userTransactions.length > 0 && <UserProfileDetails />}</RightContainer>
       </UserProfileContainer>
     </Host>
   );

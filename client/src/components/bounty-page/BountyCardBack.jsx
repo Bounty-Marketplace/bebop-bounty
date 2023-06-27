@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import CoinRating from '../common/coin-rating/CoinRating.jsx';
 import { StyledBountyCardBack } from '../../theme';
-import { GlobalContext } from '../GlobalContext.jsx';
 
 import {
   StyledTitle,
@@ -37,7 +36,7 @@ export default function BountyCardBack({ Bounty, flipCard, showOfferModal }) {
 
   useEffect(() => {
     axios
-      .get(`/api/users/${buyer_id}?auth=false`)
+      .get(`http://13.57.207.155:8080/api/users/${buyer_id}?auth=false`)
       .then((response) => {
         setUser(response.data[0]);
       })
@@ -72,7 +71,7 @@ export default function BountyCardBack({ Bounty, flipCard, showOfferModal }) {
       </OfferLayoutCenter>
 
       <OfferLayout>
-        <StyledRatingBox>Rating: {user && <CoinRating user={user} size="20px" />}</StyledRatingBox>
+        <StyledRatingBox>Rating: {user && <CoinRating size="20px" />}</StyledRatingBox>
         <StyledBuyerName onClick={handleBuyerNameClick}>{buyer_name}</StyledBuyerName>
       </OfferLayout>
     </StyledBountyCardBack>

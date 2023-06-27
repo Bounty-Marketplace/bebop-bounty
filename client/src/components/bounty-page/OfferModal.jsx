@@ -1,5 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 import {
   StyledListBountyContainer,
   StyledListBountyOverlay,
@@ -9,14 +10,13 @@ import {
   StyledListBountyCloseBtn,
   StyledListBountyContent,
 } from '../common/nav-bar/navbar.styled';
-import { GlobalContext } from '../GlobalContext.jsx';
 
 export default function ListBountyModal({ showOfferModal, Bounty }) {
-  const { userData } = useContext(GlobalContext);
+  const { id: userID } = useSelector((state) => state.user);
 
   const initialValues = {
     bountyID: Bounty.id,
-    sellerID: userData.id,
+    sellerID: userID,
     description: '',
     city: '',
     state: '',
@@ -56,7 +56,7 @@ export default function ListBountyModal({ showOfferModal, Bounty }) {
     console.log('Bounty>>>>', Bounty);
     console.log('Form Values', formValues);
     try {
-      const response = await axios.post('/api/offers', formValues);
+      const response = await axios.post('http://13.57.207.155:8080/api/offers', formValues);
       console.log('Offer submitted successfully:', response.data);
     } catch (error) {
       console.error('Error submitting offer:', error);
