@@ -12,6 +12,8 @@
     "no-restricted-syntax": ["error"],
     "import/extensions": ["error", "never", { "jsx": "always" }],
     "react/prop-types": "off",
-    "no-multi-str": "off"
+    "no-multi-str": "off",
+    "no-param-reassign": 0,
+    "no-alert": "off"
   }
 }

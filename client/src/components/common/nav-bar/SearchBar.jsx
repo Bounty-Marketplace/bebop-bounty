@@ -1,15 +1,20 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { withTheme } from 'styled-components';
+import { updateAllBounties } from '../../../slices/bountyBoardSlice';
 import { StyledSearchBar, StyledSearchInput, StyledSearchButton } from './navbar.styled';
 
-function SearchBar({ setAllBounties }) {
+function SearchBar() {
   const [searchEntry, setSearchEntry] = useState('');
+  const dispatch = useDispatch();
 
   const handleSearch = (entry) => {
     axios
-      .get('/api/bounties', { params: { searchQuery: entry } })
-      .then(({ data }) => setAllBounties(data))
+      .get('http://13.57.207.155:8080/api/bounties', { params: { searchQuery: entry } })
+      .then(({ data }) => {
+        dispatch(updateAllBounties(data));
+      })
       .catch((err) => console.error('There was an error retreiving search data', err));
   };
 

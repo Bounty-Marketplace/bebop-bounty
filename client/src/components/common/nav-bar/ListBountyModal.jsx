@@ -1,6 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { GlobalContext } from '../../GlobalContext.jsx';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateAllBounties } from '../../../slices/bountyBoardSlice';
 import {
   StyledListBountyContainer,
   StyledListBountyOverlay,
@@ -15,11 +16,12 @@ import {
   StyledImagePreview,
 } from './navbar.styled';
 
-export default function ListBountyModal({ showListBountyModal, setAllBounties }) {
-  const { userData } = useContext(GlobalContext);
+export default function ListBountyModal({ showListBountyModal }) {
+  const { id: userID } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
-  const [initialValues, setInitialValues] = useState({
-    buyerID: userData.id,
+  const initialValues = {
+    buyerID: userID,
     name: '',
     description: '',
     condition: '',
@@ -31,7 +33,7 @@ export default function ListBountyModal({ showListBountyModal, setAllBounties })
     preferred_payment: '',
     image: '',
     completed: false,
-  });
+  };
   const [formValues, setFormValues] = useState(initialValues);
   const [previewImage, setPreviewImage] = useState();
 
@@ -63,9 +65,9 @@ export default function ListBountyModal({ showListBountyModal, setAllBounties })
   const submitBounty = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/api/bounties', formValues);
+      await axios.post('http://13.57.207.155:8080/api/bounties', formValues);
       const { data } = await axios.get('/api/bounties', { params: { count: 10 } });
-      setAllBounties(data);
+      dispatch(updateAllBounties(data));
       showListBountyModal();
     } catch (err) {
       console.error('There was an error:', err);

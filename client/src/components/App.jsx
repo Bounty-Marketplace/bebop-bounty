@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme, GlobalStyles } from '../theme';
-import { GlobalContextProvider } from './GlobalContext.jsx';
 import SignUp from './signup/SignUp.jsx';
 import Landing from './landing/Landing.jsx';
 import Login from './login/Login.jsx';
@@ -20,34 +19,32 @@ function App() {
   const toggleTheme = () => setTheme(isDarkTheme ? 'light' : 'dark');
 
   return (
-    <GlobalContextProvider>
-      <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
-        <GlobalStyles />
-        <BrowserRouter>
-          <Routes>
-            <Route index element={<Navigate to="Login" />} />
-            <Route path="landing" element={<Landing />} />
-            <Route path="signup" element={<SignUp />} />
-            <Route path="login" element={<Login />} />
-            <Route
-              path="bounty-page"
-              element={<BountyPage theme={theme} toggleTheme={toggleTheme} />}
-            />
-            <Route
-              path="profile/bounty-history"
-              element={<BountyHistory theme={theme} toggleTheme={toggleTheme} />}
-            />
-            <Route
-              path="user-profile/:buyer_id"
-              element={<UserProfile theme={theme} toggleTheme={toggleTheme} />}
-            />
-            <Route path="/*" element={<Navigate to="landing" />} />
-          </Routes>
-          <Footer />
-        </BrowserRouter>
-        <Outlet />
-      </ThemeProvider>
-    </GlobalContextProvider>
+    <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
+      <GlobalStyles />
+      <BrowserRouter>
+        <Routes>
+          <Route index element={<Navigate to="Login" />} />
+          <Route path="landing" element={<Landing />} />
+          <Route path="signup" element={<SignUp />} />
+          <Route path="login" element={<Login />} />
+          <Route
+            path="bounty-page"
+            element={<BountyPage theme={theme} toggleTheme={toggleTheme} />}
+          />
+          <Route
+            path="profile/bounty-history"
+            element={<BountyHistory theme={theme} toggleTheme={toggleTheme} />}
+          />
+          <Route
+            path="user-profile"
+            element={<UserProfile theme={theme} toggleTheme={toggleTheme} />}
+          />
+          <Route path="/*" element={<Navigate to="landing" />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+      <Outlet />
+    </ThemeProvider>
   );
 }
 

@@ -1,16 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
 import Stack from 'react-bootstrap/Stack';
+import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateBountyOffers } from '../../../slices/bountySlice';
 import OfferHistoryEntry from './OfferHistoryEntry.jsx';
 
-function OfferHistoryList({ bountyID }) {
-  const [bountyOffers, setBountyOffers] = useState([]);
+function OfferHistoryList() {
+  const dispatch = useDispatch();
+  const { id: bountyID, offers: bountyOffers } = useSelector((state) => state.bounty);
 
   const getOffers = () => {
     axios
-      .get(`/api/offers`, { params: { bountyID: bountyID } })
-      .then((r) => setBountyOffers(r.data))
-      .catch((e) => console.log(e));
+      .get(`http://13.57.207.155:8080/api/offers`, { params: { bountyID } })
+      .then((response) => {
+        dispatch(updateBountyOffers(response.data));
+      })
+      .catch((e) => console.error(e));
   };
 
   useEffect(() => {

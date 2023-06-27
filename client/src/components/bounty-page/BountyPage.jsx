@@ -1,6 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { onAuthStateChanged } from 'firebase/auth';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateAllBounties } from '../../slices/bountyBoardSlice';
+import { updateUserID, updateUserProfile } from '../../slices/userSlice';
 import {
   StyledFilterBar,
   StyledSelect,
@@ -12,15 +15,15 @@ import { StyledBountyPageBorder } from '../../theme';
 import NavBar from '../common/nav-bar/NavBar.jsx';
 import BountyBoard from './BountyBoard.jsx';
 import { auth } from '../../firebase';
-import { GlobalContext } from '../GlobalContext.jsx';
 
 export default function BountyPage({ toggleTheme, theme }) {
+  const { allBounties } = useSelector((state) => state.bountyBoard);
   const [sortBy, setSortBy] = useState('');
   const [category, setCategory] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
-  const [allBounties, setAllBounties] = useState([]);
-  const { setUserData } = useContext(GlobalContext);
+  const dispatch = useDispatch();
+
   const searchIcon = (
     <svg xmlns="http://www.w3.org/2000/svg" height="13px" width="13px" viewBox="0 0 512 512">
       <path
@@ -35,10 +38,12 @@ export default function BountyPage({ toggleTheme, theme }) {
       console.log('login: ', user);
       if (user) {
         axios
-          .get(`/api/users/${user.uid}?auth=true`)
+          .get(`http://13.57.207.155:8080/api/users/${user.uid}?auth=true`)
           .then((response) => {
             console.log('userData', response.data[0]);
-            setUserData(response.data[0]);
+            const { id, ...profile } = response.data[0];
+            dispatch(updateUserID(id));
+            dispatch(updateUserProfile(profile));
           })
           .catch((err) => console.log('Err in sendUserDataToServer: ', err));
       }
@@ -48,17 +53,19 @@ export default function BountyPage({ toggleTheme, theme }) {
 
   const getAllBounties = () => {
     axios
-      .get('/api/bounties', { params: { count: 10 } })
-      .then(({ data }) => setAllBounties(data))
+      .get('http://13.57.207.155:8080/api/bounties', { params: { count: 10 } })
+      .then(({ data }) => {
+        dispatch(updateAllBounties(data));
+      })
       .catch((err) => console.error('There was a problem GETTING all bounties: ', err));
   };
 
   const submitCity = () => {
     if (city.length >= 2) {
       axios
-        .get('/api/bounties', { params: { city } })
+        .get('http://13.57.207.155:8080/api/bounties', { params: { city } })
         .then(({ data }) => {
-          setAllBounties(data);
+          dispatch(updateAllBounties(data));
           setCity('');
         })
         .catch((err) => console.error('There was a probelm retreiving city data', err));
@@ -67,9 +74,9 @@ export default function BountyPage({ toggleTheme, theme }) {
   const submitState = () => {
     if (state.length >= 2) {
       axios
-        .get('/api/bounties', { params: { state } })
+        .get('http://13.57.207.155:8080/api/bounties', { params: { state } })
         .then(({ data }) => {
-          setAllBounties(data);
+          dispatch(updateAllBounties(data));
           setState('');
         })
         .catch((err) => console.error('There was a probelm retreiving state data', err));
@@ -83,7 +90,7 @@ export default function BountyPage({ toggleTheme, theme }) {
   useEffect(() => {
     if (category || sortBy) {
       axios
-        .get('/api/bounties', {
+        .get('http://13.57.207.155:8080/api/bounties', {
           params: {
             category,
             sortBy,
@@ -91,7 +98,7 @@ export default function BountyPage({ toggleTheme, theme }) {
         })
         .then(({ data }) => {
           console.log('category data', data);
-          setAllBounties(data);
+          dispatch(updateAllBounties(data));
         })
         .catch((err) => console.error('There was a problem retreiving category data', err));
     }
@@ -99,20 +106,20 @@ export default function BountyPage({ toggleTheme, theme }) {
 
   const seeMore = (length) => {
     axios
-      .get('/api/bounties', {
+      .get('http://13.57.207.155:8080/api/bounties', {
         params: {
           count: length + 5,
         },
       })
       .then(({ data }) => {
-        setAllBounties([...allBounties, ...data.slice(length)]);
+        dispatch(updateAllBounties(data));
       })
       .catch((err) => console.error('There was a probelm retreiving city data', err));
   };
 
   return (
     <StyledBountyPageBorder>
-      <NavBar theme={theme} toggleTheme={toggleTheme} setAllBounties={setAllBounties} />
+      <NavBar theme={theme} toggleTheme={toggleTheme} />
       <StyledFilterBar>
         <div style={{ display: 'flex' }}>
           <div style={{ marginRight: 50 }}>
@@ -149,7 +156,7 @@ export default function BountyPage({ toggleTheme, theme }) {
           </StyledLocationInputs>
         </StyledLocation>
       </StyledFilterBar>
-      <BountyBoard allBounties={allBounties} />
+      <BountyBoard />
       <StyledSeeMore onClick={() => seeMore(allBounties.length)}>See More</StyledSeeMore>
     </StyledBountyPageBorder>
   );

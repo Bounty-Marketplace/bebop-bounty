@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import {
   setPersistence,
   browserSessionPersistence,
@@ -9,23 +10,24 @@ import {
   onAuthStateChanged,
 } from 'firebase/auth';
 import axios from 'axios';
-import { GlobalContext } from '../GlobalContext.jsx';
+import { updateUserID, updateUserProfile } from '../../slices/userSlice';
 import { auth } from '../../firebase';
 
 function Login() {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const { setUserData } = useContext(GlobalContext);
 
   const sendUserDataToServer = (user) => {
     if (user) {
       axios
-        .get(`/api/users/${user.uid}?auth=true`)
+        .get(`http://13.57.207.155:8080/api/users/${user.uid}?auth=true`)
         .then((response) => {
-          console.log('RESPONSEE DATA', response.data[0]);
-          setUserData(response.data[0]);
+          const { id, ...profile } = response.data[0];
+          dispatch(updateUserID(id));
+          dispatch(updateUserProfile(profile));
           navigate('/bounty-page');
         })
         .catch((err) => console.log('Err in sendUserDataToServer: ', err));

@@ -1,31 +1,40 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Stack from 'react-bootstrap/Stack';
 import Button from 'react-bootstrap/Button';
-import { GlobalContext } from '../../GlobalContext.jsx';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateUserTransactions } from '../../../slices/userSlice';
 import TransactionHistoryEntry from './TransactionHistoryEntry.jsx';
 
 function TransactionHistoryList() {
-  const { userTransactions, setUserTransactions, userData } = useContext(GlobalContext);
+  const { transactions: userTransactions, id: userID } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [slice, setSlice] = useState(15);
 
   const getUserTransactions = () => {
     axios
-      .get(`/api/transactions`, { params: { userID: userData.id } })
-      .then((r) => setUserTransactions(r.data))
-      .catch((e) => console.log(e));
+      .get(`http://13.57.207.155:8080/api/transactions`, { params: { userID } })
+      .then((response) => {
+        dispatch(updateUserTransactions(response.data));
+      })
+      .catch((e) => console.error(e));
   };
 
   useEffect(() => {
-    console.log('using user data:', userData.id)
+    console.log('using user data:', userID);
     getUserTransactions();
   }, []);
 
   return (
     <div>
       <Stack gap={3}>
-        {userTransactions.slice(0, slice).map((entry) => (
-          <TransactionHistoryEntry key={entry.id} userID={userData.id} entry={entry} getUserTransactions={getUserTransactions} />
+        {userTransactions.slice(0, slice).map((transaction) => (
+          <TransactionHistoryEntry
+            key={transaction.id}
+            userID={userID}
+            transaction={transaction}
+            getUserTransactions={getUserTransactions}
+          />
         ))}
       </Stack>
       {slice < userTransactions.length ? (
