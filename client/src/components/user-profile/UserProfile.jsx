@@ -13,7 +13,6 @@ import {
   UserDetails,
   Rating,
   RightContainer,
-  StyledRatingWrapper,
 } from './ProfileStyles';
 
 function UserProfile({ toggleTheme, theme }) {

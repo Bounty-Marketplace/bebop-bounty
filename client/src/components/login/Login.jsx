@@ -33,7 +33,6 @@ function Login() {
   };
   useEffect(() => {
     const keepLogin = onAuthStateChanged(auth, (user) => {
-      console.log('login: ', user);
       sendUserDataToServer(user);
     });
     return keepLogin;

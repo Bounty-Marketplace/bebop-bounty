@@ -43,6 +43,11 @@ export default function ProfileMenu({ toggleTheme, showProfileMenu, theme }) {
     }
   };
 
+  const handleMessagesClick = (e) => {
+    e.preventDefault();
+    navigate('/messages');
+  };
+
   return (
     <>
       <StyledClearCurtain onClick={showProfileMenu} />
@@ -59,7 +64,9 @@ export default function ProfileMenu({ toggleTheme, showProfileMenu, theme }) {
           <button type="button" onClick={handleProfileClick}>
             Profile
           </button>
-          <button type="button">Messages</button>
+          <button type="button" onClick={handleMessagesClick}>
+            Messages
+          </button>
           <button type="button" onClick={(e) => routeToMyBounties(e)}>
             Your Bounties
           </button>

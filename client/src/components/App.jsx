@@ -12,6 +12,7 @@ import BountyHistory from './profile/bounty-history/BountyHistory.jsx';
 import BountyPage from './bounty-page/BountyPage.jsx';
 import UserProfile from './user-profile/UserProfile.jsx';
 import Footer from './common/footer/Footer.jsx';
+import Messages from './messages/Messages.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
               path="user-profile/:buyer_id"
               element={<UserProfile theme={theme} toggleTheme={toggleTheme} />}
             />
+            <Route path="messages" element={<Messages theme={theme} toggleTheme={toggleTheme} />} />
             <Route path="/*" element={<Navigate to="landing" />} />
           </Routes>
           <Footer />
