@@ -5,7 +5,7 @@ import userReducer from '../slices/userSlice';
 
 const store = configureStore({
   reducer: {
-    allBounties: bountyBoardReducer,
+    bountyBoard: bountyBoardReducer,
     bounty: bountyReducer,
     user: userReducer,
   },
