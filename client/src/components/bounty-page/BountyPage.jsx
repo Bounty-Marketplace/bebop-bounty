@@ -35,12 +35,10 @@ export default function BountyPage({ toggleTheme, theme }) {
 
   useEffect(() => {
     const keepLogin = onAuthStateChanged(auth, (user) => {
-      console.log('login: ', user);
       if (user) {
         axios
           .get(`http://13.57.207.155:8080/api/users/${user.uid}?auth=true`)
           .then((response) => {
-            console.log('userData', response.data[0]);
             const { id, ...profile } = response.data[0];
             dispatch(updateUserID(id));
             dispatch(updateUserProfile(profile));
