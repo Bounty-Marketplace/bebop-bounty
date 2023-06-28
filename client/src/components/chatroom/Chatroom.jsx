@@ -1,7 +1,6 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { onAuthStateChanged } from 'firebase/auth';
-import { useAuthState } from 'react-firebase-hooks/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   addDoc,
@@ -12,6 +11,7 @@ import {
   onSnapshot,
   limit,
 } from 'firebase/firestore';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { updateUserID, updateUserProfile } from '../../slices/userSlice';
 import { auth, db } from '../../firebase';
 import NavBar from '../common/nav-bar/NavBar.jsx';
@@ -20,7 +20,9 @@ import { Host, MessagesContainer, MessagesWrapper, MessagesForm } from './Chatro
 
 function Chatroom({ toggleTheme, theme }) {
   const dispatch = useDispatch();
+  const [authUser] = useAuthState(auth);
   const { profile: userProfile } = useSelector((state) => state.user);
+  const scroll = useRef();
   const [message, setMessage] = useState(''); // send message (user input)
   const [messages, setMessages] = useState([]); // messages in db
   const exampleImgURL = 'https://i.pinimg.com/736x/5b/91/44/5b914448091084b6aa3dc005fad52eba.jpg';
@@ -55,6 +57,7 @@ function Chatroom({ toggleTheme, theme }) {
       createdAt: serverTimestamp(),
       uid,
     });
+    scroll.current.scrollIntoView({ behavior: 'smooth' });
     setMessage('');
   };
 
@@ -75,7 +78,10 @@ function Chatroom({ toggleTheme, theme }) {
       <NavBar theme={theme} toggleTheme={toggleTheme} />
       <MessagesContainer>
         <MessagesWrapper>
-          {messages && messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
+          {messages &&
+            authUser &&
+            messages.map((msg) => <ChatMessage key={msg.id} message={msg} user={authUser} />)}
+          <span ref={scroll} />
         </MessagesWrapper>
         <MessagesForm onSubmit={(event) => sendMessage(event)}>
           <input

@@ -1,18 +1,15 @@
 import React from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
 import moment from 'moment';
-import { auth } from '../../firebase';
 import { Host, ChatLeft, ChatRight, Avatar, ChatBubble } from './ChatMessageStyles';
 
-function ChatMessage({ message }) {
-  const [user] = useAuthState(auth);
+function ChatMessage({ user, message }) {
   const isCurrentUser = message.uid === user.uid;
 
   return (
     <Host>
       {isCurrentUser ? (
         <ChatRight>
-          <small>{moment.unix(message.createdAt.seconds).fromNow()}</small>
+          {message.createdAt && <small>{moment.unix(message.createdAt.seconds).fromNow()}</small>}
           <ChatBubble>
             <b>{message.name}</b>
             <p>{message.text}</p>
@@ -26,7 +23,7 @@ function ChatMessage({ message }) {
             <b>{message.name}</b>
             <p>{message.text}</p>
           </ChatBubble>
-          <small>{moment.unix(message.createdAt.seconds).fromNow()}</small>
+          {message.createdAt && <small>{moment.unix(message.createdAt.seconds).fromNow()}</small>}
         </ChatLeft>
       )}
     </Host>
