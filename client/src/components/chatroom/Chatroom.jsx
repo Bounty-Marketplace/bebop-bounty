@@ -15,11 +15,10 @@ import {
 import { updateUserID, updateUserProfile } from '../../slices/userSlice';
 import { auth, db } from '../../firebase';
 import NavBar from '../common/nav-bar/NavBar.jsx';
-import Message from './Message.jsx';
-import { Host, MessagesContainer, MessagesWrapper, MessagesForm } from './MessagesStyles';
+import ChatMessage from './ChatMessage.jsx';
+import { Host, MessagesContainer, MessagesWrapper, MessagesForm } from './ChatroomStyles';
 
-function Messages({ toggleTheme, theme }) {
-  // const [user] = useAuthState(auth);
+function Chatroom({ toggleTheme, theme }) {
   const dispatch = useDispatch();
   const { profile: userProfile } = useSelector((state) => state.user);
   const [message, setMessage] = useState(''); // send message (user input)
@@ -27,12 +26,11 @@ function Messages({ toggleTheme, theme }) {
   const exampleImgURL = 'https://i.pinimg.com/736x/5b/91/44/5b914448091084b6aa3dc005fad52eba.jpg';
 
   useEffect(() => {
-    const keepLogin = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         axios
           .get(`http://13.57.207.155:8080/api/users/${user.uid}?auth=true`)
           .then((response) => {
-            console.log('userData', response.data[0]);
             const { id, ...profile } = response.data[0];
             dispatch(updateUserID(id));
             dispatch(updateUserProfile(profile));
@@ -40,7 +38,7 @@ function Messages({ toggleTheme, theme }) {
           .catch((err) => console.log('Err in sendUserDataToServer: ', err));
       }
     });
-    return keepLogin;
+    return unsubscribe;
   }, []);
 
   const sendMessage = async (e) => {
@@ -49,8 +47,8 @@ function Messages({ toggleTheme, theme }) {
       return;
     }
     const { uid } = auth.currentUser;
-    console.log('userData in messages: ', userProfile);
-    await addDoc(collection(db, 'messages'), {
+    console.log('userProfile in chatroom: ', userProfile);
+    await addDoc(collection(db, 'chatroom'), {
       text: message,
       name: userProfile.username || '',
       avatar: userProfile.profile_image || exampleImgURL,
@@ -61,7 +59,7 @@ function Messages({ toggleTheme, theme }) {
   };
 
   useEffect(() => {
-    const q = query(collection(db, 'messages'), orderBy('createdAt'), limit(50));
+    const q = query(collection(db, 'chatroom'), orderBy('createdAt'), limit(50));
     const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
       const messagesArr = [];
       QuerySnapshot.forEach((doc) => {
@@ -77,7 +75,7 @@ function Messages({ toggleTheme, theme }) {
       <NavBar theme={theme} toggleTheme={toggleTheme} />
       <MessagesContainer>
         <MessagesWrapper>
-          {messages && messages.map((msg) => <Message key={msg.id} message={msg} />)}
+          {messages && messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
         </MessagesWrapper>
         <MessagesForm onSubmit={(event) => sendMessage(event)}>
           <input
@@ -97,4 +95,4 @@ function Messages({ toggleTheme, theme }) {
   );
 }
 
-export default Messages;
+export default Chatroom;

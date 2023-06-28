@@ -34,7 +34,7 @@ export default function BountyPage({ toggleTheme, theme }) {
   );
 
   useEffect(() => {
-    const keepLogin = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         axios
           .get(`http://13.57.207.155:8080/api/users/${user.uid}?auth=true`)
@@ -46,7 +46,7 @@ export default function BountyPage({ toggleTheme, theme }) {
           .catch((err) => console.log('Err in sendUserDataToServer: ', err));
       }
     });
-    return keepLogin;
+    return unsubscribe;
   }, []);
 
   const getAllBounties = () => {
