@@ -51,6 +51,7 @@ export default function ProfileMenu({ toggleTheme, showProfileMenu, theme }) {
 
   const handleMessagesClick = (e) => {
     e.preventDefault();
+    navigate('/messages');
   };
 
   return (
