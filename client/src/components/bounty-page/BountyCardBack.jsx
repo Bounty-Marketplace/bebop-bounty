@@ -46,7 +46,7 @@ export default function BountyCardBack({ Bounty, flipCard, showOfferModal }) {
   const navigate = useNavigate();
   const handleBuyerNameClick = (e) => {
     e.preventDefault();
-    navigate(`/user-profile/${buyer_id}`);
+    navigate(`/user-profile`);
   };
 
   return (

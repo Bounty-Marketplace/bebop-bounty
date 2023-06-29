@@ -23,7 +23,7 @@ export default function BountyCardFront({ Bounty, flipCard, isFlipped }) {
   const navigate = useNavigate();
   const handleBuyerNameClick = (e) => {
     e.preventDefault();
-    navigate(`/user-profile/${buyer_id}`);
+    navigate(`/user-profile`);
   };
 
   let { deadline } = Bounty;
