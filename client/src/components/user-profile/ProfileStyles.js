@@ -14,7 +14,7 @@ export const UserProfileContainer = styled.div`
   width: 93%;
   height: 80vh;
   margin: 10px auto;
-  min-height: 500px;
+  min-height: 600px;
   min-width: 900px;
 `;
 

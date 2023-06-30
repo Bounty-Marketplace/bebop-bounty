@@ -4,24 +4,18 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import CoinRating from '../common/coin-rating/CoinRating.jsx';
 import { StyledBountyCardBack } from '../../theme';
-
 import {
   StyledTitle,
   StyledRatingBox,
-  StyledMakeOfferButton,
-  StyledCurrentOffers,
-  FlipToFront,
-  StyledCardBackText,
   StyledPreferredPayment,
   StyledCategory,
   StyledDescription,
   OfferLayoutCenter,
   OfferLayout,
-  StyledCardBackBottom,
   StyledBuyerName,
 } from './StyledBountyBoard';
 
-export default function BountyCardBack({ Bounty, flipCard, showOfferModal }) {
+export default function BountyCardBack({ bounty, flipCard, showOfferModal }) {
   const {
     name,
     category,
@@ -29,10 +23,10 @@ export default function BountyCardBack({ Bounty, flipCard, showOfferModal }) {
     preferred_payment: preferredPayment,
     buyer_id: buyerID,
     buyer_name: buyerName,
-  } = Bounty;
+  } = bounty;
   const [user, setUser] = useState(null);
 
-  let { deadline } = Bounty;
+  let { deadline } = bounty;
   [deadline] = deadline.split(' ');
   deadline = deadline.substring(5, 10);
   deadline = deadline.replaceAll('-', '/');
@@ -46,7 +40,7 @@ export default function BountyCardBack({ Bounty, flipCard, showOfferModal }) {
       .then((response) => {
         setUser(response.data[0]);
       })
-      .catch((err) => console.log('Err in sendUserDataToServer: ', err));
+      .catch((err) => console.log('Err in get userdata: ', err));
   }, []);
 
   const navigate = useNavigate();
@@ -77,7 +71,7 @@ export default function BountyCardBack({ Bounty, flipCard, showOfferModal }) {
       </OfferLayoutCenter>
 
       <OfferLayout>
-        <StyledRatingBox>Rating: {user && <CoinRating size="20px" />}</StyledRatingBox>
+        <StyledRatingBox>Rating: {user && <CoinRating user={user} />}</StyledRatingBox>
         <StyledBuyerName onClick={handleBuyerNameClick}>{buyerName}</StyledBuyerName>
       </OfferLayout>
     </StyledBountyCardBack>

@@ -11,17 +11,17 @@ import {
   StyledListBountyContent,
 } from '../common/nav-bar/navbar.styled';
 
-export default function ListBountyModal({ showOfferModal, Bounty }) {
+export default function ListBountyModal({ showOfferModal, bounty }) {
   const { id: userID } = useSelector((state) => state.user);
 
   const initialValues = {
-    bountyID: Bounty.id,
+    bountyID: bounty.id,
     sellerID: userID,
     description: '',
     city: '',
     state: '',
     condition: '',
-    image: Bounty.image,
+    image: bounty.image,
     offerAmount: '',
   };
   const [formValues, setFormValues] = useState(initialValues);
@@ -53,7 +53,6 @@ export default function ListBountyModal({ showOfferModal, Bounty }) {
   const submitOffer = async (e) => {
     e.preventDefault();
     showOfferModal();
-    console.log('Bounty>>>>', Bounty);
     console.log('Form Values', formValues);
     try {
       const response = await axios.post('http://13.57.207.155:8080/api/offers', formValues);

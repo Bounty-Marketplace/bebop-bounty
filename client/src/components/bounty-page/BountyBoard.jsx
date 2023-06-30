@@ -9,7 +9,7 @@ import {
 
 export default function BountyBoard() {
   const { allBounties } = useSelector((state) => state.bountyBoard);
-  const Cards = allBounties.map((bounty) => <StyledCardFlip key={bounty.id} Bounty={bounty} />);
+  const Cards = allBounties.map((bounty) => <StyledCardFlip key={bounty.id} bounty={bounty} />);
 
   return (
     <StyledBountyBoardWrapper>

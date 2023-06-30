@@ -38,7 +38,7 @@ function App() {
             element={<BountyHistory theme={theme} toggleTheme={toggleTheme} />}
           />
           <Route
-            path="user-profile/:buyer_id"
+            path="user-profile/:buyerID"
             element={<UserProfile theme={theme} toggleTheme={toggleTheme} />}
           />
           <Route path="messages" element={<Messages theme={theme} toggleTheme={toggleTheme} />} />

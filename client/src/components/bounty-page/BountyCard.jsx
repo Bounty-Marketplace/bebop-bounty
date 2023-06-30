@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { StyledBountyCard } from '../../theme';
-import { updateVisitedUserID } from '../../slices/userSlice';
 
 import {
   StyledImageContainer,
@@ -18,7 +17,7 @@ import {
   StyledTitleAndName,
 } from './StyledBountyBoard';
 
-export default function BountyCardFront({ Bounty, flipCard, isFlipped }) {
+export default function BountyCardFront({ bounty, flipCard, isFlipped }) {
   const {
     buyer_name: buyerName,
     buyer_id: buyerID,
@@ -26,7 +25,7 @@ export default function BountyCardFront({ Bounty, flipCard, isFlipped }) {
     name,
     price,
     image,
-  } = Bounty;
+  } = bounty;
 
   const navigate = useNavigate();
   const handleBuyerNameClick = (e) => {
@@ -34,7 +33,7 @@ export default function BountyCardFront({ Bounty, flipCard, isFlipped }) {
     navigate(`/user-profile/${buyerID}`);
   };
 
-  let { deadline } = Bounty;
+  let { deadline } = bounty;
   deadline = deadline.substring(5, 10);
   deadline = deadline.replaceAll('-', '/');
   if (deadline.charAt(0) === '0') {
