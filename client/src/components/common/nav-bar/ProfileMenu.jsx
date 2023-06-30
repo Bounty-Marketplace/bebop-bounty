@@ -44,6 +44,16 @@ export default function ProfileMenu({ toggleTheme, showProfileMenu, theme }) {
     }
   };
 
+  const handleChatroomClick = (e) => {
+    e.preventDefault();
+    navigate('/chatroom');
+  };
+
+  const handleMessagesClick = (e) => {
+    e.preventDefault();
+    navigate('/messages');
+  };
+
   return (
     <>
       <StyledClearCurtain onClick={showProfileMenu} />
@@ -60,9 +70,14 @@ export default function ProfileMenu({ toggleTheme, showProfileMenu, theme }) {
           <button type="button" onClick={handleProfileClick}>
             Profile
           </button>
-          <button type="button">Messages</button>
           <button type="button" onClick={(e) => routeToMyBounties(e)}>
             Your Bounties
+          </button>
+          <button type="button" onClick={handleMessagesClick}>
+            Messages
+          </button>
+          <button type="button" onClick={handleChatroomClick}>
+            Chatroom
           </button>
           <button
             type="button"

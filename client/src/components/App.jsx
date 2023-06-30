@@ -11,6 +11,8 @@ import BountyHistory from './profile/bounty-history/BountyHistory.jsx';
 import BountyPage from './bounty-page/BountyPage.jsx';
 import UserProfile from './user-profile/UserProfile.jsx';
 import Footer from './common/footer/Footer.jsx';
+import Chatroom from './chatroom/Chatroom.jsx';
+import Messages from './messages/MessagesList.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -36,9 +38,15 @@ function App() {
             element={<BountyHistory theme={theme} toggleTheme={toggleTheme} />}
           />
           <Route
-            path="user-profile/:buyer_id"
+            path="user-profile/:buyerID"
             element={<UserProfile theme={theme} toggleTheme={toggleTheme} />}
           />
+          <Route path="messages" element={<Messages theme={theme} toggleTheme={toggleTheme} />} />
+          <Route
+            path="messages/:userID"
+            element={<Messages theme={theme} toggleTheme={toggleTheme} />}
+          />
+          <Route path="chatroom" element={<Chatroom theme={theme} toggleTheme={toggleTheme} />} />
           <Route path="/*" element={<Navigate to="landing" />} />
         </Routes>
         <Footer />

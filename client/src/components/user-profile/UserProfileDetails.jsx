@@ -15,8 +15,8 @@ import {
   TransactionBottom,
 } from './RightContainerStyles';
 
-function UserProfileDetails() {
-  const { id: userID, transactions: userTransactions } = useSelector((state) => state.user);
+function UserProfileDetails({ userID }) {
+  const { transactions: userTransactions } = useSelector((state) => state.user);
   return (
     <>
       <ReviewContainer>

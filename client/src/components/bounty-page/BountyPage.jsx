@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useSelector, useDispatch } from 'react-redux';
@@ -34,13 +34,11 @@ export default function BountyPage({ toggleTheme, theme }) {
   );
 
   useEffect(() => {
-    const keepLogin = onAuthStateChanged(auth, (user) => {
-      console.log('login: ', user);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         axios
           .get(`http://13.57.207.155:8080/api/users/${user.uid}?auth=true`)
           .then((response) => {
-            console.log('userData', response.data[0]);
             const { id, ...profile } = response.data[0];
             dispatch(updateUserID(id));
             dispatch(updateUserProfile(profile));
@@ -48,7 +46,7 @@ export default function BountyPage({ toggleTheme, theme }) {
           .catch((err) => console.log('Err in sendUserDataToServer: ', err));
       }
     });
-    return keepLogin;
+    return unsubscribe;
   }, []);
 
   const getAllBounties = () => {

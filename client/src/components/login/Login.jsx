@@ -34,11 +34,10 @@ function Login() {
     }
   };
   useEffect(() => {
-    const keepLogin = onAuthStateChanged(auth, (user) => {
-      console.log('login: ', user);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       sendUserDataToServer(user);
     });
-    return keepLogin;
+    return unsubscribe;
   }, []);
 
   const handleSignIn = (e) => {

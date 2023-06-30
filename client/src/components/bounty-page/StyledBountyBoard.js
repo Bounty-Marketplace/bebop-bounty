@@ -154,7 +154,7 @@ export const StyledTitle = styled.div`
 export const StyledBuyerName = styled.div`
   font-size: small;
   cursor: pointer;
-  /* border: solid; */
+  direction: rtl;
 `;
 
 export const StyledDeadline = styled.div`
@@ -167,12 +167,12 @@ export const StyledCardBackText = styled.div`
 `;
 
 export const StyledRatingBox = styled.div`
-  /* border: solid; */
-  width: 100px;
-  height: 15px;
-  padding-bottom: 10%;
   display: flex;
-  align-items: baseline;
+  align-items: center;
+  > div {
+    margin-left: -20px;
+    transform: scale(0.7);
+  }
 `;
 
 export const StyledMakeOfferButton = styled.button`
@@ -197,12 +197,15 @@ export const StyledDescription = styled.div`
   overflow: scroll;
   height: 150px;
 `;
-export const StyledPreferredPayment = styled.div``;
+export const StyledPreferredPayment = styled.div`
+  margin-bottom: 10px;
+`;
 
 export const OfferLayout = styled.div`
+  margin-top: 20px;
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
 `;
 
 export const StyledFlexContainer = styled.div`
