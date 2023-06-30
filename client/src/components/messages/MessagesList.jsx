@@ -71,8 +71,7 @@ function MessagesList({ toggleTheme, theme }) {
           ))}
         </UsersContainer>
         <MessagesContainer>
-          Message:
-          {userId && <Messages id={curId} userId={userId} />}
+          {userId ? <Messages id={curId} userId={userId} /> : <div />}
         </MessagesContainer>
       </MessagesListContainer>
     </Host>

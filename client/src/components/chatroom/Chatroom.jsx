@@ -83,12 +83,11 @@ function Chatroom({ toggleTheme, theme }) {
             messages.map((msg) => <ChatMessage key={msg.id} message={msg} user={authUser} />)}
           <span ref={scroll} />
         </MessagesWrapper>
-        <MessagesForm onSubmit={(event) => sendMessage(event)}>
+        <MessagesForm onSubmit={(e) => sendMessage(e)}>
           <input
             id="messageInput"
             name="messageInput"
             type="text"
-            className="form-input__input"
             placeholder="type message..."
             required
             value={message}

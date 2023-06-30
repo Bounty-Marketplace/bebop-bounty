@@ -14,7 +14,7 @@ export const UserProfileContainer = styled.div`
   width: 93%;
   height: 80vh;
   margin: 10px auto;
-  min-height: 400px;
+  min-height: 500px;
   min-width: 900px;
 `;
 
@@ -38,6 +38,7 @@ export const ProfileImage = styled.img`
   width: 400px;
   height: 60%;
   object-fit: cover;
+  min-height: 400px;
 `;
 
 export const Rating = styled.div`
@@ -46,6 +47,22 @@ export const Rating = styled.div`
   align-items: center;
   gap: 10px;
   font-size: 1.5em;
+`;
+
+export const UserInfoBottom = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+export const MessageButton = styled.button`
+  font-size: 1.5em;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 5px;
+  background-color: #ffffff12;
+  border: 1px solid;
+  margin-top: 20px;
 `;
 
 export const RightContainer = styled.div`

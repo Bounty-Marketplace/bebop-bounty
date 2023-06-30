@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Host = styled.div`
   margin-top: 50px;
+  min-width: 1000px;
 `;
 
 export const MessagesListContainer = styled.div`
@@ -14,10 +15,12 @@ export const MessagesListContainer = styled.div`
   height: 80vh;
   margin: 10px auto;
   min-height: 500px;
-  min-width: 900px;
 `;
 
 export const UsersContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   border: 1px solid;
   width: 30%;
   padding: 20px;
@@ -25,13 +28,19 @@ export const UsersContainer = styled.div`
   > div {
     display: flex;
     align-items: center;
+    border-radius: 10px;
+    background-color: rgb(255 255 255 / 10%);
+    padding: 10px;
     height: 50px;
     cursor: pointer;
   }
 `;
 
 export const MessagesContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   border: 1px solid;
   width: 70%;
   padding: 20px;
+  gap: 10px;
 `;
