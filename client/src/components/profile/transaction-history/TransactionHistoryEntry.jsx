@@ -3,7 +3,7 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import { TransEntry } from '../BountyHistoryStyles';
 
-function TransactionHistoryEntry({ userID, entry: transaction, getUserTransactions }) {
+function TransactionHistoryEntry({ userID, transaction, getUserTransactions }) {
   const [role, setRole] = useState('');
 
   const date = new Date(transaction.transaction_date).toLocaleDateString('en-us', {
