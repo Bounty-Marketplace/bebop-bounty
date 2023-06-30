@@ -42,6 +42,10 @@ function App() {
             element={<UserProfile theme={theme} toggleTheme={toggleTheme} />}
           />
           <Route path="messages" element={<Messages theme={theme} toggleTheme={toggleTheme} />} />
+          <Route
+            path="messages/:userID"
+            element={<Messages theme={theme} toggleTheme={toggleTheme} />}
+          />
           <Route path="chatroom" element={<Chatroom theme={theme} toggleTheme={toggleTheme} />} />
           <Route path="/*" element={<Navigate to="landing" />} />
         </Routes>

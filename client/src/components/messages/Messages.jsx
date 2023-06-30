@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   addDoc,
+  setDoc,
   collection,
   onSnapshot,
   query,
@@ -10,7 +11,7 @@ import {
 } from 'firebase/firestore';
 import { useSelector } from 'react-redux';
 import Message from './Message.jsx';
-import { auth, db } from '../../firebase';
+import { db } from '../../firebase';
 import {
   MessagesContainer,
   MessagesView,
@@ -57,6 +58,11 @@ function Messages({ id, userId }) {
       });
 
       messagesListRef = doc(db, 'users', userId, 'MessagesList', id);
+      await setDoc(messagesListRef, {
+        uid: id,
+        username: userProfile.username || '',
+        avatar: userProfile.profile_image,
+      });
       messagesRef = collection(messagesListRef, 'Messages');
       await addDoc(messagesRef, {
         uid: id,

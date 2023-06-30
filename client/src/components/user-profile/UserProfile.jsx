@@ -46,7 +46,7 @@ function UserProfile({ toggleTheme, theme }) {
 
   const handleChatClick = (e) => {
     e.preventDefault();
-    navigate(`/messages`);
+    navigate(`/messages/${user.uid}`);
   };
 
   return (

@@ -29,11 +29,20 @@ export const UsersContainer = styled.div`
     display: flex;
     align-items: center;
     border-radius: 10px;
+    gap: 10px;
     background-color: rgb(255 255 255 / 10%);
     padding: 10px;
-    height: 50px;
+    height: 70px;
     cursor: pointer;
   }
+`;
+
+export const Avatar = styled.img`
+  height: 50px;
+  width: 50px;
+  border-radius: 50px;
+  object-fit: cover;
+  grid-column-start: 2;
 `;
 
 export const MessagesContainer = styled.div`
