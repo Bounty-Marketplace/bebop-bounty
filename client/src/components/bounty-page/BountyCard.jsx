@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { StyledBountyCard } from '../../theme';
+import { updateVisitedUserID } from '../../slices/userSlice';
 
 import {
   StyledImageContainer,
@@ -18,12 +19,19 @@ import {
 } from './StyledBountyBoard';
 
 export default function BountyCardFront({ Bounty, flipCard, isFlipped }) {
-  const { id, buyer_name, buyer_id, offer_count, name, price, image } = Bounty;
+  const {
+    buyer_name: buyerName,
+    buyer_id: buyerID,
+    offer_count: offerCount,
+    name,
+    price,
+    image,
+  } = Bounty;
 
   const navigate = useNavigate();
   const handleBuyerNameClick = (e) => {
     e.preventDefault();
-    navigate(`/user-profile`);
+    navigate(`/user-profile/${buyerID}`);
   };
 
   let { deadline } = Bounty;
@@ -44,12 +52,12 @@ export default function BountyCardFront({ Bounty, flipCard, isFlipped }) {
         <StyledTitleAndName>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <StyledTitle>{name}</StyledTitle>
-            <StyledBuyerName onClick={handleBuyerNameClick}>{buyer_name}</StyledBuyerName>
+            <StyledBuyerName onClick={handleBuyerNameClick}>{buyerName}</StyledBuyerName>
           </div>
         </StyledTitleAndName>
       </StyledMidcardContainer>
       <StyledBottomCardContainer>
-        <StyledCurrentOffers>Current Offers: {offer_count}</StyledCurrentOffers>
+        <StyledCurrentOffers>Current Offers: {offerCount}</StyledCurrentOffers>
         <StyledDeadline>Deadline: {deadline}</StyledDeadline>
       </StyledBottomCardContainer>
     </StyledBountyCard>

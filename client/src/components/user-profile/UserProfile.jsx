@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import { updateUserTransactions } from '../../slices/userSlice';
 import UserProfileDetails from './UserProfileDetails.jsx';
 import CoinRating from '../common/coin-rating/CoinRating.jsx';
@@ -18,11 +19,10 @@ import {
 
 function UserProfile({ toggleTheme, theme }) {
   const dispatch = useDispatch();
-  const {
-    id: userID,
-    profile: userProfile,
-    transactions: userTransactions,
-  } = useSelector((state) => state.user);
+  const { profile: userProfile, transactions: userTransactions } = useSelector(
+    (state) => state.user
+  );
+  const userID = Number(useParams().buyer_id);
 
   useEffect(() => {
     axios
