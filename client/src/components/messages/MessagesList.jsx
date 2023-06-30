@@ -82,7 +82,7 @@ function MessagesList({ toggleTheme, theme }) {
       <NavBar theme={theme} toggleTheme={toggleTheme} />
       <MessagesListContainer>
         <UsersContainer>
-          User:
+          Users:
           {users.map((item) => (
             <div
               key={item.id}

@@ -21,10 +21,25 @@ export const MessagesContainer = styled.div`
 
 export const MessagesWrapper = styled.div`
   overflow: scroll;
-  padding: 30px 100px;
+  padding: 30px 50px;
 `;
 
 export const MessagesForm = styled.form`
-  display: flex;
-  justify-content: flex-end;
+  width: 100%;
+  margin-top: 20px;
+`;
+
+export const MessagesInput = styled.input`
+  width: 90%;
+  margin-right: 20px;
+`;
+
+export const MessagesButton = styled.button`
+  font-size: 1.2em;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #ffffff12;
+  border: 1px solid;
+  width: 7%;
 `;

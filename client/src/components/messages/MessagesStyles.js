@@ -16,20 +16,27 @@ export const MessagesView = styled.div`
   gap: 10px;
   border-radius: 10px;
   background-color: rgb(255 255 255 / 10%);
-  padding: 10px;
+  padding: 20px;
   height: 80vh;
   overflow: scroll;
 `;
 
 export const MessagesForm = styled.form`
   width: 100%;
+  margin-top: 20px;
 `;
 
 export const MessagesInput = styled.input`
-  width: 90%;
+  width: 87%;
+  margin-right: 20px;
 `;
 
 export const MessagesButton = styled.button`
-  color: #111222;
+  font-size: 1.2em;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 5px;
+  background-color: #ffffff12;
+  border: 1px solid;
   width: 10%;
 `;

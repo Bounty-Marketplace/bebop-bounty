@@ -16,7 +16,14 @@ import { updateUserID, updateUserProfile } from '../../slices/userSlice';
 import { auth, db } from '../../firebase';
 import NavBar from '../common/nav-bar/NavBar.jsx';
 import ChatMessage from './ChatMessage.jsx';
-import { Host, MessagesContainer, MessagesWrapper, MessagesForm } from './ChatroomStyles';
+import {
+  Host,
+  MessagesContainer,
+  MessagesWrapper,
+  MessagesForm,
+  MessagesInput,
+  MessagesButton,
+} from './ChatroomStyles';
 
 function Chatroom({ toggleTheme, theme }) {
   const dispatch = useDispatch();
@@ -84,7 +91,7 @@ function Chatroom({ toggleTheme, theme }) {
           <span ref={scroll} />
         </MessagesWrapper>
         <MessagesForm onSubmit={(e) => sendMessage(e)}>
-          <input
+          <MessagesInput
             id="messageInput"
             name="messageInput"
             type="text"
@@ -93,7 +100,7 @@ function Chatroom({ toggleTheme, theme }) {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />
-          <button type="submit">Send</button>
+          <MessagesButton type="submit">Send</MessagesButton>
         </MessagesForm>
       </MessagesContainer>
     </Host>

@@ -44,13 +44,12 @@ export const Avatar = styled.img`
 export const ChatBubble = styled.div`
   display: flex;
   flex-direction: column;
-  border-radius: 20px;
+  border-radius: 15px;
   padding: 10px 15px;
-  background-color: #94b2ffc7;
-  color: #1c2c4c;
+  background-color: #cdeaffcf;
+  color: rgb(12 48 120);
   width: max-content;
   min-width: 100px;
   max-width: calc(100% - 50px);
-  box-shadow: -2px 2px 1px 1px #4c768d;
   margin-bottom: 10px;
 `;
