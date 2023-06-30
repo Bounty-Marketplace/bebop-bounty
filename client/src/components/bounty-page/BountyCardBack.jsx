@@ -22,8 +22,14 @@ import {
 } from './StyledBountyBoard';
 
 export default function BountyCardBack({ Bounty, flipCard, showOfferModal }) {
-  const { name, category, description, preferred_payment, offerCount, buyer_id, buyer_name } =
-    Bounty;
+  const {
+    name,
+    category,
+    description,
+    preferred_payment: preferredPayment,
+    buyer_id: buyerID,
+    buyer_name: buyerName,
+  } = Bounty;
   const [user, setUser] = useState(null);
 
   let { deadline } = Bounty;
@@ -36,7 +42,7 @@ export default function BountyCardBack({ Bounty, flipCard, showOfferModal }) {
 
   useEffect(() => {
     axios
-      .get(`http://13.57.207.155:8080/api/users/${buyer_id}?auth=false`)
+      .get(`http://13.57.207.155:8080/api/users/${buyerID}?auth=false`)
       .then((response) => {
         setUser(response.data[0]);
       })
@@ -46,7 +52,7 @@ export default function BountyCardBack({ Bounty, flipCard, showOfferModal }) {
   const navigate = useNavigate();
   const handleBuyerNameClick = (e) => {
     e.preventDefault();
-    navigate(`/user-profile`);
+    navigate(`/user-profile/${buyerID}`);
   };
 
   return (
@@ -60,8 +66,8 @@ export default function BountyCardBack({ Bounty, flipCard, showOfferModal }) {
         <b>Description: </b>
         {description}
       </StyledDescription>
-      {preferred_payment && (
-        <StyledPreferredPayment>Preferred Payment: {preferred_payment}</StyledPreferredPayment>
+      {preferredPayment && (
+        <StyledPreferredPayment>Preferred Payment: {preferredPayment}</StyledPreferredPayment>
       )}
 
       <OfferLayoutCenter>
@@ -72,7 +78,7 @@ export default function BountyCardBack({ Bounty, flipCard, showOfferModal }) {
 
       <OfferLayout>
         <StyledRatingBox>Rating: {user && <CoinRating size="20px" />}</StyledRatingBox>
-        <StyledBuyerName onClick={handleBuyerNameClick}>{buyer_name}</StyledBuyerName>
+        <StyledBuyerName onClick={handleBuyerNameClick}>{buyerName}</StyledBuyerName>
       </OfferLayout>
     </StyledBountyCardBack>
   );
