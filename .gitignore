@@ -7,8 +7,7 @@ node_modules
 coverage
 
 # ignore build and production files
-bundle.js
-bundle.js.map
+bundle.js*
 
 # ignore misc
 .DS_Store
