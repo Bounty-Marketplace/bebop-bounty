@@ -4,8 +4,7 @@
 
 ## Demo
 
-<img src="https://i.ibb.co/C1f1gg7/ezgif-com-video-to-gif-1.gif" alt="ezgif-com-video-to-gif-1" width="600" border="0">
-
+<a href="https://ibb.co/k9xckPD"><img src="https://i.ibb.co/nnbkZK1/ezgif-com-crop.gif" alt="ezgif-com-crop" border="0"></a>
 
 Bebop Bounty is an e-commerce platform that allows users to post bounties requesting items matching their described criteria, and in turn, sellers can make offers on the bounty.
  
