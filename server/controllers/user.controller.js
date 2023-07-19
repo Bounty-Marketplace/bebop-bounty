@@ -47,7 +47,7 @@ module.exports.sendEmail = (req, res) => {
     from: process.env.OUR_EMAIL_ADDRESS,
     to: userEmail,
     subject,
-    text: message,
+    html: message,
   };
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {

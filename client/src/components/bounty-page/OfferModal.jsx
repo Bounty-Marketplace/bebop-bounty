@@ -12,7 +12,7 @@ import {
 } from '../common/nav-bar/navbar.styled';
 
 export default function ListBountyModal({ showOfferModal, bounty }) {
-  const { id: userID } = useSelector((state) => state.user);
+  const { id: userID, profile: userProfile } = useSelector((state) => state.user);
 
   const initialValues = {
     bountyID: bounty.id,
@@ -53,10 +53,28 @@ export default function ListBountyModal({ showOfferModal, bounty }) {
   const submitOffer = async (e) => {
     e.preventDefault();
     showOfferModal();
-    console.log('Form Values', formValues);
     try {
-      const response = await axios.post('http://13.57.207.155:8080/api/offers', formValues);
-      console.log('Offer submitted successfully:', response.data);
+      const response1 = await axios.post('http://13.57.207.155:8080/api/offers', formValues);
+      console.log('Offer submitted successfully:', response1.data);
+      const response = await axios.get(
+        `http://13.57.207.155:8080/api/users/${bounty.buyer_id}?auth=false`
+      );
+      const { email } = response.data[0];
+      const data = {
+        userEmail: email,
+        subject: `Someone just made an offer of your bouny!`,
+        message: `
+        <h1>Hey ${bounty.buyer_name},</h1>
+        <h2>${userProfile.username} just made an offer of your bounty "${bounty.name}".</h2>
+        <p>Offer description: ${formValues.description}</p>
+        <p>Offer state: ${formValues.state}</p>
+        <p>Offer city: ${formValues.city}</p>
+        <p>Offer condition: ${formValues.condition}</p>
+        <p>Offer amount: ${formValues.offerAmount}</p>
+        `,
+      };
+      console.log('email info', data);
+      await axios.post('api/send_email', data);
     } catch (error) {
       console.error('Error submitting offer:', error);
     }
@@ -123,7 +141,6 @@ export default function ListBountyModal({ showOfferModal, bounty }) {
                   accept="image/png, image/jpeg, image/jpg"
                   name="image"
                   onChange={(e) => getImageURL(e)}
-                  required
                 />
               </div>
               <div>
