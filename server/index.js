@@ -2,9 +2,11 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const compression = require('compression');
 const router = require('./routes');
 
 const app = express();
+app.use(compression());
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
