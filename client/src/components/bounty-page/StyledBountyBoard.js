@@ -48,13 +48,6 @@ export const StyledBountyCard = styled.div`
   /* background-color: #e7e5d5; */
 `;
 
-// export const StyledBountyCardBack = styled(StyledBountyCard)`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: space-between;
-//   padding: 6%;
-// `;
-
 export const FlipToFront = styled.div``;
 
 export const StyledCardBackBottom = styled.div`
@@ -194,7 +187,7 @@ export const StyledCategory = styled.div`
   /* border: solid; */
 `;
 export const StyledDescription = styled.div`
-  overflow: scroll;
+  overflow: auto;
   height: 150px;
 `;
 export const StyledPreferredPayment = styled.div`

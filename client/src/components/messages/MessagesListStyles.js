@@ -24,7 +24,7 @@ export const UsersContainer = styled.div`
   border: 1px solid;
   width: 30%;
   padding: 20px;
-  overflow: scroll;
+  overflow: auto;
   > div {
     display: flex;
     align-items: center;

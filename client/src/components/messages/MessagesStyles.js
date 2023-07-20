@@ -5,7 +5,7 @@ export const MessagesContainer = styled.div`
   flex-direction: column;
   padding: 10px;
   min-height: 300px;
-  overflow: scroll;
+  overflow: auto;
   min-width: 700px;
   gap: 10px;
 `;
@@ -18,7 +18,7 @@ export const MessagesView = styled.div`
   background-color: rgb(255 255 255 / 10%);
   padding: 20px;
   height: 80vh;
-  overflow: scroll;
+  overflow: auto;
 `;
 
 export const MessagesForm = styled.form`

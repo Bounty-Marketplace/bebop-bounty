@@ -20,7 +20,7 @@ export const MessagesContainer = styled.div`
 `;
 
 export const MessagesWrapper = styled.div`
-  overflow: scroll;
+  overflow: auto;
   padding: 30px 50px;
 `;
 
