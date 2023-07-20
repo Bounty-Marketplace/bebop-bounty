@@ -58,7 +58,7 @@ function BountyHistory({ toggleTheme, theme }) {
                 <StyledFlexContainer>
                   {userBounties.map((bounty) => (
                     <BountyCardFront
-                      Bounty={bounty}
+                      bounty={bounty}
                       key={bounty.id}
                       onClick={() => handleShow(bounty.id)}
                     />

@@ -1,10 +1,11 @@
 // require('dotenv').config();
-const Dotenv = require('dotenv-webpack');;
+const Dotenv = require('dotenv-webpack');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const path = require('path');
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: path.join(__dirname, '/client/src/index.jsx'),
   output: {
     path: path.join(__dirname, '/client/dist'),
@@ -33,5 +34,9 @@ module.exports = {
         type: 'asset/resource',
       },
     ],
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
   },
 };
